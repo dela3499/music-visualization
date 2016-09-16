@@ -71,16 +71,6 @@ def audio_to_matrix(mp3_filename):
     X = quad(M_pair[:, :-1][:-1,:])
     return X
 
-def create_image_from_audio(mp3_filename, img_filename):
-    """ ------------------------------------------
-        String -> String -> SideEffect[FileSystem]
-        ------------------------------------------
-        Create and save image using audio file.
-    """
-    mat = audio_to_matrix(mp3_filename)
-    im = PIL.Image.fromarray(np.uint8(plt.cm.viridis_r(mat)*255)).resize((200,200)).resize((1000,1000))
-    im.save(img_filename)
-    
 def download(url, mp3_filename):
     """ ------------------------------------------
         String -> String -> SideEffect[FileSystem]
@@ -95,6 +85,16 @@ def download(url, mp3_filename):
         audio_format = "mp3",
         o = mp3_filename
     )
+
+def create_image_from_audio(mp3_filename, img_filename):
+    """ ------------------------------------------
+        String -> String -> SideEffect[FileSystem]
+        ------------------------------------------
+        Create and save image using audio file.
+    """
+    mat = audio_to_matrix(mp3_filename)
+    im = PIL.Image.fromarray(np.uint8(plt.cm.viridis_r(mat)*255)).resize((200,200)).resize((1000,1000))
+    im.save(img_filename)
     
 def url_to_img(url, mp3_filename, img_filename):
     """ ----------------------------------------------------
@@ -105,7 +105,13 @@ def url_to_img(url, mp3_filename, img_filename):
     """
     download(url, mp3_filename)
     create_image_from_audio(mp3_filename, img_filename)     
-    
+
 # create_image_from_audio(
 #     '../tmp/song.mp3', 
-#     '../tmp/img.png')         
+#     '../tmp/img.png')
+
+# url_to_img(
+#     'https://www.youtube.com/watch?v=LgMcDT7PKuo',
+#     '../tmp/song.mp3', 
+#     '../tmp/img.png'
+# )
