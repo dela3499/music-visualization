@@ -1,6 +1,6 @@
 port module MusicAnalyzer exposing (..)
 
-import Html exposing ( Html, text, div, span, input, textarea, img, table, tr, th, td, i, p, a )
+import Html exposing ( Html, iframe, text, div, span, input, textarea, img, table, tr, th, td, i, p, a )
 import Html.Events exposing ( on, targetValue, onClick, onDoubleClick, onInput )
 import Html.Attributes exposing ( .. )
 import Html.App as Html
@@ -23,6 +23,8 @@ import Mouse
 import Task
 import Debug
 
+import Json.Encode as Json
+
 
 main = 
   Html.program
@@ -33,10 +35,8 @@ main =
     }
 
 
-initCmd = showVideo "m7XQZnBDJKY"
-
-
-port showVideo : String -> Cmd msg 
+initCmd = 
+  Cmd.none
 
 
 subscriptions: Model -> Sub Msg
@@ -82,8 +82,29 @@ view model =
         [ ]
     , model |> toString |> text 
     , showImage model.id
-    , div [ id "video-placeholder" ] []
+    --, div [ id "video-placeholder" ] []
+    , showVideo model.id
     ]
+
+
+showVideo modelID = 
+  case modelID of
+    YouTube videoID -> 
+      iframe 
+        [ id "elm-player"
+        , width 600
+        , height 390
+        , src ("http://www.youtube.com/embed/" ++ videoID ++ "enablejsapi=1")
+        , style [ ("border", "0") ]
+        , property "type" (Json.string "text/html")
+        ]
+        []      
+    Error _ -> 
+      div [] [] 
+    NoID -> 
+      div [] []
+
+
 
 
 showImage id = 

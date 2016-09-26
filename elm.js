@@ -11602,15 +11602,54 @@ var _user$project$MusicAnalyzer$showImage = function (id) {
 			return _elm_lang$html$Html$text('Paste in a URL from Youtube!');
 	}
 };
+var _user$project$MusicAnalyzer$showVideo = function (modelID) {
+	var _p1 = modelID;
+	switch (_p1.ctor) {
+		case 'YouTube':
+			return A2(
+				_elm_lang$html$Html$iframe,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$id('elm-player'),
+						_elm_lang$html$Html_Attributes$width(600),
+						_elm_lang$html$Html_Attributes$height(390),
+						_elm_lang$html$Html_Attributes$src(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'http://www.youtube.com/embed/',
+							A2(_elm_lang$core$Basics_ops['++'], _p1._0, 'enablejsapi=1'))),
+						_elm_lang$html$Html_Attributes$style(
+						_elm_lang$core$Native_List.fromArray(
+							[
+								{ctor: '_Tuple2', _0: 'border', _1: '0'}
+							])),
+						A2(
+						_elm_lang$html$Html_Attributes$property,
+						'type',
+						_elm_lang$core$Json_Encode$string('text/html'))
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[]));
+		case 'Error':
+			return A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[]));
+		default:
+			return A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[]));
+	}
+};
 var _user$project$MusicAnalyzer$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
 };
-var _user$project$MusicAnalyzer$showVideo = _elm_lang$core$Native_Platform.outgoingPort(
-	'showVideo',
-	function (v) {
-		return v;
-	});
-var _user$project$MusicAnalyzer$initCmd = _user$project$MusicAnalyzer$showVideo('m7XQZnBDJKY');
+var _user$project$MusicAnalyzer$initCmd = _elm_lang$core$Platform_Cmd$none;
 var _user$project$MusicAnalyzer$Model = function (a) {
 	return {id: a};
 };
@@ -11627,9 +11666,9 @@ var _user$project$MusicAnalyzer$getID = function (string) {
 		A2(_elm_lang$core$String$split, '?v=', string));
 	var isYouTubeUrl = A2(_elm_lang$core$String$startsWith, _user$project$MusicAnalyzer$youtubeBaseUrl, string);
 	if (isYouTubeUrl) {
-		var _p1 = id;
-		if (_p1.ctor === 'Just') {
-			return _user$project$MusicAnalyzer$YouTube(_p1._0);
+		var _p2 = id;
+		if (_p2.ctor === 'Just') {
+			return _user$project$MusicAnalyzer$YouTube(_p2._0);
 		} else {
 			return _user$project$MusicAnalyzer$NoID;
 		}
@@ -11639,13 +11678,13 @@ var _user$project$MusicAnalyzer$getID = function (string) {
 };
 var _user$project$MusicAnalyzer$update = F2(
 	function (msg, model) {
-		var _p2 = msg;
+		var _p3 = msg;
 		return {
 			ctor: '_Tuple2',
 			_0: _elm_lang$core$Native_Utils.update(
 				model,
 				{
-					id: _user$project$MusicAnalyzer$getID(_p2._0)
+					id: _user$project$MusicAnalyzer$getID(_p3._0)
 				}),
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
@@ -11675,14 +11714,7 @@ var _user$project$MusicAnalyzer$view = function (model) {
 				_elm_lang$html$Html$text(
 				_elm_lang$core$Basics$toString(model)),
 				_user$project$MusicAnalyzer$showImage(model.id),
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$id('video-placeholder')
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[]))
+				_user$project$MusicAnalyzer$showVideo(model.id)
 			]));
 };
 var _user$project$MusicAnalyzer$main = {

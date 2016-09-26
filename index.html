@@ -4,56 +4,16 @@
   <script type="text/javascript" src="elm.js"></script>
   
   <div id="main"></div>
+  <iframe id="player" type="text/html" width="640" height="390"
+    src="http://www.youtube.com/embed/z437fujpBwg?enablejsapi=1
+    frameborder="0"></iframe>
+
+
+  <!-- https://www.youtube.com/watch?v=UqqYpUmtgLg -->
+  <!-- https://www.youtube.com/watch?v=z437fujpBwg -->
   
   <script>
     var div = document.getElementById('main');
     var app = Elm.MusicAnalyzer.embed(div);
-
-    var tag = document.createElement('script');
-
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    var player;
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('video-placeholder', {
-        height: '390',
-        width: '640',
-        videoId: 'M7lc1UVf-VE',
-        events: {
-          'onReady': onPlayerReady,
-          'onStateChange': onPlayerStateChange
-        }
-      }); 
-    }
-
-    function onPlayerReady(event) {
-      event.target.playVideo();
-    }
-
-    // 5. The API calls this function when the player's state changes.
-    //    The function indicates that when playing a video (state=1),
-    //    the player should play for six seconds and then stop.
-    var done = false;
-    var updatedOnce = false;
-    function onPlayerStateChange(event) {
-      if (event.data == YT.PlayerState.PLAYING && !done) {
-        console.log(event);
-        console.log(event.target.getCurrentTime());
-        console.log(event.target.getDuration());
-
-        updatedOnce = true;
-        setTimeout(stopVideo, 6000);
-        done = true;
-      }
-    }
-    function stopVideo() {
-      player.stopVideo();
-    }
-    app.ports.showVideo.subscribe(function(videoID) {
-      console.log('Video ID:')
-      console.log(videoID)
-    });
   </script>
 </html>
