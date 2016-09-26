@@ -1,3 +1,5 @@
+port module MusicAnalyzer exposing (..)
+
 import Html exposing ( Html, text, div, span, input, textarea, img, table, tr, th, td, i, p, a )
 import Html.Events exposing ( on, targetValue, onClick, onDoubleClick, onInput )
 import Html.Attributes exposing ( .. )
@@ -31,7 +33,10 @@ main =
     }
 
 
-initCmd = Cmd.none
+initCmd = showVideo "m7XQZnBDJKY"
+
+
+port showVideo : String -> Cmd msg 
 
 
 subscriptions: Model -> Sub Msg
@@ -77,6 +82,7 @@ view model =
         [ ]
     , model |> toString |> text 
     , showImage model.id
+    , div [ id "video-placeholder" ] []
     ]
 
 
